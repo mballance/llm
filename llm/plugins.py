@@ -3,9 +3,9 @@ from importlib import metadata
 import os
 import pluggy
 import sys
+import defaults
 from . import hookspecs
 
-DEFAULT_PLUGINS = ("llm.default_plugins.openai_models",)
 
 pm = pluggy.PluginManager("llm")
 pm.add_hookspecs(hookspecs)
@@ -33,6 +33,6 @@ if LLM_LOAD_PLUGINS is not None:
         except metadata.PackageNotFoundError:
             sys.stderr.write(f"Plugin {package_name} could not be found\n")
 
-for plugin in DEFAULT_PLUGINS:
+for plugin in defaults.DEFAULT_PLUGINS:
     mod = importlib.import_module(plugin)
     pm.register(mod, plugin)

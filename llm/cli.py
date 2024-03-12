@@ -26,6 +26,7 @@ from llm import (
 from .migrations import migrate
 from .plugins import pm
 import base64
+from . import defaults
 import pathlib
 import pydantic
 import readline
@@ -40,12 +41,6 @@ import warnings
 import yaml
 
 warnings.simplefilter("ignore", ResourceWarning)
-
-DEFAULT_MODEL = "gpt-3.5-turbo"
-DEFAULT_EMBEDDING_MODEL = "ada-002"
-
-DEFAULT_TEMPLATE = "prompt: "
-
 
 def _validate_metadata_json(ctx, param, value):
     if value is None:
@@ -998,7 +993,7 @@ def templates_edit(name):
     # First ensure it exists
     path = template_dir() / f"{name}.yaml"
     if not path.exists():
-        path.write_text(DEFAULT_TEMPLATE, "utf-8")
+        path.write_text(defaults.DEFAULT_TEMPLATE, "utf-8")
     click.edit(filename=path)
     # Validate that template
     load_template(name)
@@ -1574,7 +1569,7 @@ def _truncate_string(s, max_length=100):
     return s
 
 
-def get_default_model(filename="default_model.txt", default=DEFAULT_MODEL):
+def get_default_model(filename="default_model.txt", default=defaults.DEFAULT_MODEL):
     path = user_dir() / filename
     if path.exists():
         return path.read_text().strip()

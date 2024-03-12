@@ -13,9 +13,9 @@ from .models import (
     Prompt,
     Response,
 )
+from . import defaults
 from .embeddings import Collection
 from .templates import Template
-from .plugins import pm
 import click
 from typing import Dict, List, Optional
 import json
@@ -41,6 +41,7 @@ __all__ = [
 
 
 def get_plugins(all=False):
+    from .plugins import pm
     plugins = []
     plugin_to_distinfo = dict(pm.list_plugin_distinfo())
     for plugin in pm.get_plugins():
@@ -61,6 +62,7 @@ def get_plugins(all=False):
 
 
 def get_models_with_aliases() -> List["ModelWithAliases"]:
+    from .plugins import pm
     model_aliases = []
 
     # Include aliases from aliases.json
@@ -83,6 +85,7 @@ def get_models_with_aliases() -> List["ModelWithAliases"]:
 
 
 def get_embedding_models_with_aliases() -> List["EmbeddingModelWithAliases"]:
+    from .plugins import pm
     model_aliases = []
 
     # Include aliases from aliases.json
@@ -105,6 +108,7 @@ def get_embedding_models_with_aliases() -> List["EmbeddingModelWithAliases"]:
 
 
 def get_embedding_models():
+    from .plugins import pm
     models = []
 
     def register(model, aliases=None):
