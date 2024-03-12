@@ -3,7 +3,7 @@ from importlib import metadata
 import os
 import pluggy
 import sys
-import defaults
+from . import defaults
 from . import hookspecs
 
 
